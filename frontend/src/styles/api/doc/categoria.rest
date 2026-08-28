@@ -1,0 +1,2 @@
+### Consulta de categorias
+GET http://sistemadeinventario.com/categorias

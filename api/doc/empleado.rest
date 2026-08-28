@@ -1,0 +1,2 @@
+### Consulta de empleados
+GET http://api.sistemainventario/empleados

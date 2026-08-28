@@ -1,0 +1,30 @@
+### Consulta de productos
+GET http://api.sistemainventario/productos
+### Actualizar producto
+PUT http://api.sistemainventario/productos/1
+
+{
+    "codbarras":"750100000001",
+    "nombre":"computadora ",
+    "descripcion":"computadora  de escritorio",
+    "stock_actual":200,
+    "stock_minimo":10,
+    "precio_costo":20.00,
+    "cod_categoria":1,
+    "cod_ubicacion":1
+}
+### Adicionar producto
+POST http://api.sistemainventario/productos
+
+{
+    "codbarras":"756798700999",
+    "nombre":"computadora ",
+    "descripcion":"computadora  de escritorio",
+    "stock_actual":200,
+    "stock_minimo":1,
+    "precio_costo":20.00,
+    "cod_categoria":1,
+    "cod_ubicacion":1
+}
+### Eliminar producto
+DELETE http://api.sistemainventario/productos/1

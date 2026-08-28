@@ -1,0 +1,2 @@
+### Consulta de usuarios
+GET http://api.sistemainventario/usuarios

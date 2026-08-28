@@ -1,0 +1,2 @@
+### Consulta de ubicaciones
+GET http://api.sistemainventario/ubicaciones

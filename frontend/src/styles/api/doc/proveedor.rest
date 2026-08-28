@@ -1,0 +1,2 @@
+### Consulta de proveedores
+GET http://sistemadeinventario.com/proveedores
