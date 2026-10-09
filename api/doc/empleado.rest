@@ -1,2 +1,27 @@
 ### Consulta de empleados
 GET http://api.sistemainventario/empleados
+
+### Adicionar empleado
+POST http://api.sistemainventario/empleados
+Content-Type: application/json
+
+{
+  "ci": "12345678",
+  "nombre": "Ana",
+  "apellidos": "Lopez Rojas",
+  "cargo": "ALMACENERO"
+}
+
+### Actualizar empleado (cambiar el id por uno existente)
+PUT http://api.sistemainventario/empleados/1
+Content-Type: application/json
+
+{
+  "ci": "12345678",
+  "nombre": "Ana Maria",
+  "apellidos": "Lopez Rojas",
+  "cargo": "SUPERVISOR"
+}
+
+### Eliminar empleado (cambiar el id por uno existente y sin usuario asociado)
+DELETE http://api.sistemainventario/empleados/1

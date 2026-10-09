@@ -13,6 +13,9 @@ class Productos
     // Actualizar Producto
     public static function update($id, $data)
     {
+        if (!self::findById($id)) {
+            return false;
+        }
         if (isset($data['id'])) {
             unset($data['id']);
         }
@@ -64,9 +67,17 @@ class Productos
     // Eliminar Producto
     public static function delete($id)
     {
+        if (!self::findById($id)) {
+            return false;
+        }
         $sql = "DELETE FROM productos WHERE id=:id";
         $valores = [":id" => $id];
         $result = ConexionPDO::execute($sql, $valores, false);
         return $result;
+    }
+
+    public static function findById($id)
+    {
+        return ConexionPDO::query('SELECT id FROM productos WHERE id = :id', [':id' => $id]);
     }
 }

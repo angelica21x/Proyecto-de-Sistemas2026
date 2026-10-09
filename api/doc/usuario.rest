@@ -1,2 +1,29 @@
 ### Consulta de usuarios
 GET http://api.sistemainventario/usuarios
+
+### Adicionar usuario (cod_empleado debe existir; password_hash debe ser generado con password_hash() de PHP)
+POST http://api.sistemainventario/usuarios
+Content-Type: application/json
+
+{
+  "username": "usuario.prueba",
+  "password_hash": "$2y$10$reemplaza_este_valor_por_un_hash_real",
+  "rol": "ALMACENERO",
+  "estado": 1,
+  "cod_empleado": 2
+}
+
+### Actualizar usuario (cambiar el id por uno existente)
+PUT http://api.sistemainventario/usuarios/1
+Content-Type: application/json
+
+{
+  "username": "usuario.prueba",
+  "password_hash": "$2y$10$reemplaza_este_valor_por_un_hash_real",
+  "rol": "SUPERVISOR",
+  "estado": 1,
+  "cod_empleado": 2
+}
+
+### Eliminar usuario (cambiar el id por uno existente)
+DELETE http://api.sistemainventario/usuarios/1

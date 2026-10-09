@@ -1,10 +1,7 @@
 <?php
-include_once __DIR__ . "/../Config/conexionDB.php";
-class Proveedores
+require_once __DIR__ . "/CrudModel.php";
+class Proveedores extends CrudModel
 {
-    public static function all()
-    {
-        $sql = "SELECT * FROM proveedores";
-        return ConexionPDO::query($sql);
-    }
+    protected static string $table = 'proveedores';
+    protected static array $fields = ['nit_rut', 'razon_social', 'contacto_nombre', 'direccion', 'telefono', 'email'];
 }

@@ -1,2 +1,27 @@
 ### Consulta de ubicaciones
 GET http://api.sistemainventario/ubicaciones
+
+### Adicionar ubicacion
+POST http://api.sistemainventario/ubicaciones
+Content-Type: application/json
+
+{
+  "zona_sector": "Sector de prueba",
+  "pasillo": "Pasillo F",
+  "estante": "Estante 06",
+  "nivel_balda": "Nivel 1"
+}
+
+### Actualizar ubicacion (cambiar el id por uno existente)
+PUT http://api.sistemainventario/ubicaciones/1
+Content-Type: application/json
+
+{
+  "zona_sector": "Sector de prueba actualizado",
+  "pasillo": "Pasillo F",
+  "estante": "Estante 06",
+  "nivel_balda": "Nivel 2"
+}
+
+### Eliminar ubicacion (cambiar el id por uno existente y sin productos asociados)
+DELETE http://api.sistemainventario/ubicaciones/1

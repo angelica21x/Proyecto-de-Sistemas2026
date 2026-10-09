@@ -1,10 +1,9 @@
 <?php
-require_once "../src/Models/Categorias.php";
-class CategoriaController{
-    public function getAll()
-    {
-        $categoria=Categorias::all();
-        echo json_encode($categoria);
-         
-    }
+require_once __DIR__ . "/CrudController.php";
+require_once __DIR__ . "/../Models/Categorias.php";
+class CategoriaController extends CrudController
+{
+    protected string $modelClass = Categorias::class;
+    protected array $allowedFields = ['nombre', 'descripcion'];
+    protected array $requiredFields = ['nombre'];
 }

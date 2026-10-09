@@ -4,12 +4,12 @@ export const getUsersList = async () => {
     const container = document.getElementById('userTableList');
     container.innerHTML = '<tr><td>Cargando...</td></tr>'; // Limpiar el contenido existente
     try {
-        const users = await api.get('users');
+        const users = await api.get('usuarios');
         container.innerHTML = users.map(user => `
             <tr>
                 <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.email}</td>
+                <td>${user.username}</td>
+                <td>${user.rol}</td>
             </tr>
         `).join('');
     } catch (error) {

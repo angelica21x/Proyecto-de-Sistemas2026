@@ -1,2 +1,23 @@
 ### Consulta de categorias
 GET http://api.sistemainventario/categorias
+
+### Adicionar categoria
+POST http://api.sistemainventario/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Papeleria",
+  "descripcion": "Materiales de oficina y papeleria"
+}
+
+### Actualizar categoria (cambiar el id por uno existente)
+PUT http://api.sistemainventario/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Papeleria y oficina",
+  "descripcion": "Materiales de oficina y papeleria"
+}
+
+### Eliminar categoria (cambiar el id por uno existente y sin productos asociados)
+DELETE http://api.sistemainventario/categorias/1

@@ -1,10 +1,9 @@
 <?php
-require_once "../src/Models/Ubicaciones.php";
-class UbicacionController{
-    public function getAll()
-    {
-        $ubicacion=Ubicaciones::all();
-        echo json_encode($ubicacion);
-         
-    }
+require_once __DIR__ . "/CrudController.php";
+require_once __DIR__ . "/../Models/Ubicaciones.php";
+class UbicacionController extends CrudController
+{
+    protected string $modelClass = Ubicaciones::class;
+    protected array $allowedFields = ['zona_sector', 'pasillo', 'estante', 'nivel_balda'];
+    protected array $requiredFields = ['zona_sector', 'pasillo', 'estante', 'nivel_balda'];
 }

@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+require_once __DIR__ . "/config.php";
 class ConexionPDO
 {
     private static ?PDO  $cnn = null;
@@ -14,7 +14,7 @@ class ConexionPDO
         try {
             self::$cnn = new PDO($pdo, USERNAME, PASSWORD, $options);
         } catch (PDOException $error) {
-            die("ERROR " . $error->getMessage());
+            throw $error;
         }
         return self::$cnn;
     }
@@ -41,7 +41,7 @@ class ConexionPDO
             }
             return $res;
         } catch (Exception $e) {
-            die("Existe error al procesar datos" . $e->getMessage());
+            throw $e;
         }
     }
 }

@@ -1,2 +1,31 @@
 ### Consulta de proveedores
 GET http://api.sistemainventario/proveedores
+
+### Adicionar proveedor
+POST http://api.sistemainventario/proveedores
+Content-Type: application/json
+
+{
+  "nit_rut": "NIT-900111333",
+  "razon_social": "Distribuidora Central S.A.",
+  "contacto_nombre": "Maria Perez",
+  "direccion": "Av. Central 123",
+  "telefono": "70000000",
+  "email": "ventas@distribuidoracentral.com"
+}
+
+### Actualizar proveedor (cambiar el id por uno existente)
+PUT http://api.sistemainventario/proveedores/1
+Content-Type: application/json
+
+{
+  "nit_rut": "NIT-900111333",
+  "razon_social": "Distribuidora Central S.A.",
+  "contacto_nombre": "Maria Perez",
+  "direccion": "Av. Central 123",
+  "telefono": "70000000",
+  "email": "ventas@distribuidoracentral.com"
+}
+
+### Eliminar proveedor (cambiar el id por uno existente y sin movimientos asociados)
+DELETE http://api.sistemainventario/proveedores/1

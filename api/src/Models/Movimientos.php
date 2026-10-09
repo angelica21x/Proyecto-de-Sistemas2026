@@ -1,10 +1,7 @@
 <?php
-include_once __DIR__ . "/../Config/conexionDB.php";
-class Movimientos
+require_once __DIR__ . "/CrudModel.php";
+class Movimientos extends CrudModel
 {
-    public static function all()
-    {
-        $sql = "SELECT * FROM movimientos";
-        return ConexionPDO::query($sql);
-    }
+    protected static string $table = 'movimientos';
+    protected static array $fields = ['tipo_movimiento', 'fecha_registro', 'documento_referencia', 'observaciones', 'cod_empleado', 'cod_proveedor'];
 }

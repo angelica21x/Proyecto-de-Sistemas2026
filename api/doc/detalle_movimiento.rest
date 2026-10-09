@@ -1,2 +1,27 @@
 ### Consulta de detalle de movimientos
 GET http://api.sistemainventario/detalle_movimientos
+
+### Adicionar detalle de movimiento (usar IDs existentes)
+POST http://api.sistemainventario/detalle_movimientos
+Content-Type: application/json
+
+{
+  "cod_movimiento": 1,
+  "cod_producto": 1,
+  "cantidad": 2,
+  "precio_historico": 1200.00
+}
+
+### Actualizar detalle de movimiento (cambiar el id por uno existente)
+PUT http://api.sistemainventario/detalle_movimientos/1
+Content-Type: application/json
+
+{
+  "cod_movimiento": 1,
+  "cod_producto": 1,
+  "cantidad": 3,
+  "precio_historico": 1200.00
+}
+
+### Eliminar detalle de movimiento (cambiar el id por uno existente)
+DELETE http://api.sistemainventario/detalle_movimientos/1

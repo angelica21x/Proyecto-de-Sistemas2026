@@ -1,2 +1,31 @@
 ### Consulta de movimientos
 GET http://api.sistemainventario/movimientos
+
+### Adicionar movimiento (cod_empleado y cod_proveedor deben existir)
+POST http://api.sistemainventario/movimientos
+Content-Type: application/json
+
+{
+  "tipo_movimiento": "ENTRADA",
+  "fecha_registro": "2026-10-09 10:30:00",
+  "documento_referencia": "FAC-1001",
+  "observaciones": "Ingreso de mercaderia",
+  "cod_empleado": 2,
+  "cod_proveedor": 1
+}
+
+### Actualizar movimiento (cambiar el id por uno existente)
+PUT http://api.sistemainventario/movimientos/1
+Content-Type: application/json
+
+{
+  "tipo_movimiento": "ENTRADA",
+  "fecha_registro": "2026-10-09 10:30:00",
+  "documento_referencia": "FAC-1001",
+  "observaciones": "Ingreso registrado",
+  "cod_empleado": 2,
+  "cod_proveedor": 1
+}
+
+### Eliminar movimiento (cambiar el id por uno existente; sus detalles se eliminan en cascada)
+DELETE http://api.sistemainventario/movimientos/1

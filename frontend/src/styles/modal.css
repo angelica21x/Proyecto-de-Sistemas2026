@@ -1,0 +1,9 @@
+#modal-root {
+  position: relative;
+  z-index: 30;
+}
+
+.modal-backdrop,
+.modal {
+  pointer-events: auto;
+}

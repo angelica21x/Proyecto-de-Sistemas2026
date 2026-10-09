@@ -27,4 +27,4 @@ POST http://api.sistemainventario/productos
     "cod_ubicacion":1
 }
 ### Eliminar producto
-DELETE http://api.sistemainventario/productos/1
+DELETE http://api.sistemainventario/productos/3

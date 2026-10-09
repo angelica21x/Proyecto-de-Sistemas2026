@@ -13,7 +13,15 @@ class Router{
     }
     public function run()
     {
-        $uri=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+        $uri = isset($_GET['route']) ? '/' . trim((string) $_GET['route'], '/') : parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        // When installed below a project directory, route only the path after /public/.
+        $publicPrefix = strpos($uri, '/public/');
+        if ($publicPrefix !== false) {
+            $uri = substr($uri, $publicPrefix + 7);
+        }
+        if ($uri === '' || $uri === false) {
+            $uri = '/';
+        }
         $method=$_SERVER['REQUEST_METHOD'];
         foreach($this->routes as $route)
             {
