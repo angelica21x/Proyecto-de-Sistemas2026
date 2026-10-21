@@ -27,8 +27,10 @@ class Router{
             {
                 $pattern=str_replace(['{id}','/'],['([0-9]+)','\/'],$route['route']);
                 $pattern='/^'.$pattern.'$/';
-                if($method===$route['method'] && preg_match($pattern,$uri,$matches))
-                    { array_shift($matches);
+                        if($method===$route['method'] && preg_match($pattern,$uri,$matches))
+                    {
+                        if (!\Auth::authorize($method, $uri)) return;
+                        array_shift($matches);
                         list($controllerName,$methodName)=explode('@',$route['handler']);
                         $controller=new $controllerName();
                         return call_user_func_array([$controller,$methodName],$matches); 

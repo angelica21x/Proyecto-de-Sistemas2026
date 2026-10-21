@@ -3,13 +3,15 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Accept');
+header('Access-Control-Allow-Headers: Content-Type, Accept, Authorization');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
 
 require_once __DIR__ . "/../src/Router.php";
+require_once __DIR__ . "/../src/Auth.php";
+require_once __DIR__ . "/../src/Controllers/AuthController.php";
 require_once __DIR__ . "/../src/Controllers/ProductoController.php";
 require_once __DIR__ . "/../src/Controllers/EmpleadoController.php";
 require_once __DIR__ . "/../src/Controllers/CategoriaController.php";
@@ -22,6 +24,10 @@ require_once __DIR__ . "/../src/Controllers/UsuarioController.php";
 use App\Router;
 
 $route = new Router();
+
+// Autenticación de cuentas y consulta de la sesión vigente.
+$route->add('POST', '/auth/login', 'AuthController@login');
+$route->add('GET', '/auth/me', 'AuthController@me');
 
 // dirección para usuarios
 $route->add('GET', '/', 'UsuarioController@getAll');

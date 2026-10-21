@@ -6,6 +6,11 @@
 2. Crea la base `sistemadealmacenamiento` e importa `api/data/Base-principal.sql` y luego `api/data/llenarDatos.sql`.
 3. Copia `api/.env.example` como `api/.env` y ajusta usuario, contraseña, host y puerto de MySQL.
 4. Asegúrate de que Apache permita `.htaccess` y tenga habilitado `mod_rewrite`.
+5. Define `APP_SECRET` en `api/.env` con una clave aleatoria de al menos 32 caracteres. Ejecuta `api/data/cuentas_roles.sql` una vez en la base de datos para crear las tres cuentas y sus hashes de contraseña.
+
+## Inicio de sesión y roles
+
+Abre `login.html` (la página principal redirige allí). La API devuelve un token temporal al validar el correo y la contraseña. El administrador tiene acceso completo; el almacenero puede gestionar productos y movimientos; el supervisor puede consultar inventario y reportes. La API valida estos permisos en cada solicitud.
 
 ## Abrir el frontend
 

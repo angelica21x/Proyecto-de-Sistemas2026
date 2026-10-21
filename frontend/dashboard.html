@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102a56">
+  <title>InventarioPro | Sistema de inventario</title>
+  <link rel="stylesheet" href="./src/styles/app.css?v=7">
+  <link rel="stylesheet" href="./src/styles/modal.css?v=1">
+  <script type="module" src="./src/main.js?v=9"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" data-view="dashboard">
+        <span class="brand-mark">IP</span>
+        <span><strong>InventarioPro</strong><small>Control de almacén</small></span>
+      </a>
+      <p class="nav-caption">MENÚ PRINCIPAL</p>
+      <nav class="side-nav" aria-label="Navegación principal">
+        <a href="#dashboard" data-view="dashboard"><span class="nav-icon">⌂</span>Dashboard</a>
+        <a href="#productos" data-view="productos"><span class="nav-icon">▦</span>Productos</a>
+        <a href="#categorias" data-view="categorias"><span class="nav-icon">▤</span>Categorías</a>
+        <a href="#empleados" data-view="empleados"><span class="nav-icon">♙</span>Empleados</a>
+        <a href="#proveedores" data-view="proveedores"><span class="nav-icon">▣</span>Proveedores</a>
+        <a href="#ubicaciones" data-view="ubicaciones"><span class="nav-icon">⌖</span>Ubicaciones</a>
+        <a href="#movimientos" data-view="movimientos"><span class="nav-icon">⇄</span>Movimientos</a>
+        <a href="#entradas" data-view="entradas"><span class="nav-icon">↓</span>Entradas</a>
+        <a href="#salidas" data-view="salidas"><span class="nav-icon">↑</span>Salidas</a>
+        <a href="#detalle_movimientos" data-view="detalle_movimientos"><span class="nav-icon">☷</span>Detalle de movimientos</a>
+        <a href="#usuarios" data-view="usuarios"><span class="nav-icon">♧</span>Usuarios</a>
+        <a href="#reportes" data-view="reportes"><span class="nav-icon">▥</span>Reportes</a>
+      </nav>
+      <div class="sidebar-bottom"><span class="status-dot"></span><span><strong>Conexión API</strong><small id="connection-label">Sin comprobar</small></span><a href="#configuracion" data-view="configuracion" aria-label="Configurar conexión">⚙</a></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button id="menu-toggle" class="icon-button mobile-menu" aria-label="Abrir menú">☰</button>
+        <div><p class="eyebrow">SISTEMA DE INVENTARIO</p><h1 id="page-title">Dashboard</h1></div>
+        <div class="topbar-actions"><span class="today" id="today-label"></span><a class="user-chip" href="#configuracion" data-view="configuracion"><span class="avatar">AD</span><span><strong>Administrador</strong><small>Panel de control</small></span></a></div>
+      </header>
+      <section id="app" class="page-content" aria-live="polite"></section>
+      <footer class="footer">InventarioPro <span>•</span> Gestión de inventario</footer>
+    </main>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-root" aria-live="polite"></div>
+</body>
+</html>

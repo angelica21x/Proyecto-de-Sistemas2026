@@ -53,12 +53,14 @@ export async function apiRequest(endpoint, { method = 'GET', body } = {}) {
       : `${base}/${cleanEndpoint}`;
     let response;
     try {
+      const token = sessionStorage.getItem('inventariopro_session_token');
+      const headers = body === undefined
+        ? { Accept: 'application/json' }
+        : { Accept: 'application/json', 'Content-Type': 'application/json' };
+      if (token) headers.Authorization = `Bearer ${token}`;
       response = await fetch(url, {
         method,
-        headers: body === undefined ? { Accept: 'application/json' } : {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
+        headers,
         body: body === undefined ? undefined : JSON.stringify(body)
       });
     } catch {
@@ -84,6 +86,12 @@ export async function apiRequest(endpoint, { method = 'GET', body } = {}) {
     if (response.ok) {
       if (method === 'GET' && base !== configuredUrl) localStorage.setItem(API_STORAGE_KEY, base);
       return result;
+    }
+
+    if (response.status === 401 && sessionStorage.getItem('inventariopro_session_token')) {
+      sessionStorage.removeItem('inventariopro_session_token');
+      sessionStorage.removeItem('inventariopro_user');
+      window.location.replace('./login.html?error=session');
     }
 
     const message = [result?.message || result?.error, result?.detail].filter(Boolean).join(' — ') || `Error HTTP ${response.status}`;

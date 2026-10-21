@@ -1,11 +1,35 @@
-import { apiRequest, defaultApiUrl, getApiUrl, setApiUrl } from './utils/api.js?v=8';
+import { apiRequest, defaultApiUrl, getApiUrl, setApiUrl } from './utils/api.js?v=9';
 
 const app = document.getElementById('app');
 const pageTitle = document.getElementById('page-title');
 const navLinks = [...document.querySelectorAll('[data-view]')];
 const modalRoot = document.getElementById('modal-root');
 const toastRoot = document.getElementById('toast-root');
-const state = { view: 'dashboard', rows: [], related: {}, search: '' };
+const state = { view: 'dashboard', rows: [], related: {}, search: '', user: null };
+
+const roleViews = {
+  ADMINISTRADOR: ['*'],
+  ALMACENERO: ['dashboard', 'productos', 'movimientos', 'entradas', 'salidas', 'detalle_movimientos', 'ubicaciones'],
+  SUPERVISOR: ['dashboard', 'productos', 'movimientos', 'entradas', 'salidas', 'detalle_movimientos', 'ubicaciones', 'reportes']
+};
+
+function canAccessView(view) {
+  const allowed = roleViews[state.user?.rol] || [];
+  return allowed.includes('*') || allowed.includes(view);
+}
+
+function canWrite(view) {
+  if (state.user?.rol === 'ADMINISTRADOR') return true;
+  return state.user?.rol === 'ALMACENERO' && ['productos', 'movimientos', 'entradas', 'salidas', 'detalle_movimientos'].includes(view);
+}
+
+function applyRoleVisibility() {
+  document.querySelectorAll('[data-view]').forEach(link => {
+    const visible = canAccessView(link.dataset.view);
+    link.hidden = !visible;
+    link.style.display = visible ? '' : 'none';
+  });
+}
 
 const modules = {
   productos: {
@@ -149,6 +173,14 @@ function renderModule(view, rows, notice = '') {
   const headers = config.columns.map(key => `<th>${escapeHtml(config.labels[key] || fieldLabels[key] || key)}</th>`).join('');
   const body = filtered.map(row => `<tr>${config.columns.map(key => `<td>${displayCell(config, key, row[key])}</td>`).join('')}<td><div class="actions"><button class="button secondary small" data-action="edit" data-id="${escapeHtml(row.id)}">Editar</button><button class="button danger small" data-action="delete" data-id="${escapeHtml(row.id)}">Eliminar</button></div></td></tr>`).join('');
   app.innerHTML = `${notice}<div class="page-heading"><div><h2>${escapeHtml(config.title)}</h2><p>${escapeHtml(config.subtitle)}</p></div><button class="button" data-action="create">＋ Nuevo registro</button></div><div class="toolbar"><input class="search-input" id="table-search" type="search" placeholder="Buscar en ${escapeHtml(config.title.toLowerCase())}…" value="${escapeHtml(state.search)}"><button class="button secondary" data-action="export">Exportar CSV</button><button class="button secondary" data-action="refresh">Actualizar</button></div><div class="table-card"><div class="table-scroll"><table><thead><tr>${headers}<th>Acciones</th></tr></thead><tbody>${body || `<tr><td colspan="${config.columns.length + 1}" class="empty-state">${state.search ? 'No hay coincidencias.' : 'Todavía no hay registros.'}</td></tr>`}</tbody></table></div></div><p class="muted" style="font-size:11px;margin:10px 2px">${filtered.length} registro${filtered.length === 1 ? '' : 's'}</p>`;
+  if (!canWrite(view)) {
+    app.querySelector('[data-action="create"]')?.remove();
+    app.querySelector('thead th:last-child')?.remove();
+    app.querySelectorAll('tbody tr').forEach(row => {
+      if (row.children.length > config.columns.length) row.lastElementChild.remove();
+    });
+    app.querySelectorAll('.empty-state').forEach(cell => { cell.colSpan = config.columns.length; });
+  }
 }
 
 async function loadRelations(config) {
@@ -202,6 +234,7 @@ async function loadDashboard() {
     const recent = [...movements].sort((a, b) => String(b.fecha_registro || '').localeCompare(String(a.fecha_registro || ''))).slice(0, 5);
     const rows = recent.map(item => `<tr><td>${escapeHtml(formatDate(item.fecha_registro))}</td><td><span class="tag ${item.tipo_movimiento === 'ENTRADA' ? 'green' : item.tipo_movimiento === 'SALIDA' ? 'orange' : ''}">${escapeHtml(item.tipo_movimiento)}</span></td><td>${escapeHtml(item.documento_referencia || '—')}</td><td>${escapeHtml(item.observaciones || '—')}</td></tr>`).join('');
     app.innerHTML = `${apiNotice()}<div class="page-heading"><div><h2>Resumen del almacén</h2><p>Indicadores basados en los datos actuales de la API.</p></div><button class="button secondary" data-action="refresh">Actualizar datos</button></div><div class="stats-grid">${statCard('Productos registrados', products.length, 'Productos en catálogo')}${statCard('Unidades en stock', stock, 'Suma de existencias actuales')}${statCard('Productos con stock bajo', lowStock.length, 'Igual o menor al mínimo')}${statCard('Movimientos', movements.length, `${entries} entradas · ${exits} salidas`)}</div><div class="dashboard-grid"><section class="card"><h3>Movimientos recientes</h3><p class="card-subtitle">Últimos movimientos registrados</p><div class="table-scroll"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Documento</th><th>Observaciones</th></tr></thead><tbody>${rows || `<tr><td colspan="4" class="empty-state">No hay movimientos registrados.</td></tr>`}</tbody></table></div></section><section class="card"><h3>Accesos rápidos</h3><p class="card-subtitle">Ir directamente a un módulo</p><div class="quick-grid"><a class="quick-link" href="#productos" data-view="productos">＋ Productos</a><a class="quick-link" href="#movimientos" data-view="movimientos">＋ Movimientos</a><a class="quick-link" href="#categorias" data-view="categorias">Categorías · ${categories.length}</a><a class="quick-link" href="#empleados" data-view="empleados">Empleados · ${employees.length}</a><a class="quick-link" href="#reportes" data-view="reportes">Ver reportes</a><a class="quick-link" href="#configuracion" data-view="configuracion">Configurar API</a></div></section></div>${lowStock.length ? `<section class="card" style="margin-top:16px"><h3>Requieren reposición</h3><p class="card-subtitle">Productos en o debajo de su stock mínimo</p><div class="stock-list">${lowStock.slice(0, 8).map(product => `<div class="stock-item"><span>${escapeHtml(product.nombre)}</span><span>${escapeHtml(product.stock_actual)} / mínimo ${escapeHtml(product.stock_minimo)}</span></div>`).join('')}</div></section>` : ''}`;
+    applyRoleVisibility();
   } catch (error) {
     renderError(error, 'dashboard');
   }
@@ -359,6 +392,10 @@ function exportCsv() {
 
 async function loadCurrentView() {
   const view = location.hash.slice(1) || 'dashboard';
+  if (!canAccessView(view)) {
+    location.hash = 'dashboard';
+    return;
+  }
   if (modules[view]) return loadModule(view, true);
   if (view === 'entradas' || view === 'salidas') {
     modules[view] = { ...modules.movimientos, title: view === 'entradas' ? 'Entradas' : 'Salidas', subtitle: view === 'entradas' ? 'Movimientos de ingreso al almacén.' : 'Movimientos de salida del almacén.' };
@@ -425,4 +462,23 @@ document.body.addEventListener('click', event => {
 document.getElementById('menu-toggle').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
 document.getElementById('today-label').textContent = new Intl.DateTimeFormat('es-BO', { dateStyle: 'full' }).format(new Date());
 window.addEventListener('hashchange', loadCurrentView);
-loadCurrentView();
+
+async function startApplication() {
+  try {
+    const session = await apiRequest('auth/me');
+    if (!session?.user) throw new Error('Sesión no disponible');
+    state.user = session.user;
+    const username = session.user.username || 'Usuario';
+    document.querySelector('.user-chip strong').textContent = username;
+    document.querySelector('.user-chip small').textContent = session.user.rol;
+    document.querySelector('.avatar').textContent = username.slice(0, 2).toUpperCase();
+    applyRoleVisibility();
+    await loadCurrentView();
+  } catch {
+    sessionStorage.removeItem('inventariopro_session_token');
+    sessionStorage.removeItem('inventariopro_user');
+    window.location.replace('./login.html?error=session');
+  }
+}
+
+startApplication();
