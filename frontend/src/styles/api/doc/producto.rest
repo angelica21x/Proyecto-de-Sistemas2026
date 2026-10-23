@@ -1,7 +1,7 @@
 ### Consulta de productos
-GET http://sistemadeinventario.com/productos
+GET http://sistemadeinventario/productos
 ### Actualizar producto
-PUT http://sistemadeinventario.com/productos/1
+PUT http://sistemadeinventario/productos/1
 
 {
     "codbarras":"750100000001",
