@@ -73,6 +73,7 @@ async function sendAuthRequest(mode, form) {
   const siteOrigin = window.location.origin.replace(/\/$/, '');
   const apiBases = [
     ...(savedApiBase ? [savedApiBase] : []),
+    ...(window.location.hostname === 'proyecto-de-sistemas2026-5.onrender.com' ? ['https://proyecto-de-sistemas2026-4.onrender.com'] : []),
     siteOrigin,
     `${siteOrigin}/api/public`,
     `${siteOrigin}/api`,
@@ -108,6 +109,10 @@ async function sendAuthRequest(mode, form) {
       }
 
       result = await response.json().catch(() => null);
+      if (response.ok && mode === 'login' && (!result?.token || !result?.user?.id || !result?.user?.rol)) {
+        failures.push(`${url} (la respuesta no es de una API de autenticación)`);
+        continue;
+      }
       if ([401, 404, 405].includes(response.status)) {
         failures.push(url);
         continue;

@@ -1,4 +1,4 @@
-﻿import { apiRequest, defaultApiUrl, getApiUrl, setApiUrl } from './utils/api.js?v=11';
+import { apiRequest, defaultApiUrl, getApiUrl, setApiUrl } from './utils/api.js?v=12';
 
 const app = document.getElementById('app');
 const pageTitle = document.getElementById('page-title');

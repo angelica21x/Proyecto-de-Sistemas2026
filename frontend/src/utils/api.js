@@ -1,6 +1,9 @@
 const API_STORAGE_KEY = 'inventariopro_api_url';
 
 export function defaultApiUrl() {
+  if (window.location.hostname === 'proyecto-de-sistemas2026-5.onrender.com') {
+    return 'https://proyecto-de-sistemas2026-4.onrender.com';
+  }
   // The existing REST examples call /productos directly on the site host.
   return window.location.origin.replace(/\/$/, '');
 }
@@ -8,7 +11,7 @@ export function defaultApiUrl() {
 export function getApiUrl() {
   const saved = (localStorage.getItem(API_STORAGE_KEY) || '').replace(/\/$/, '');
   const previousDefault = `${window.location.origin.replace(/\/$/, '')}/api/public`;
-  if (saved === previousDefault) {
+  if (saved === previousDefault || (saved === window.location.origin.replace(/\/$/, '') && window.location.hostname === 'proyecto-de-sistemas2026-5.onrender.com')) {
     localStorage.setItem(API_STORAGE_KEY, defaultApiUrl());
     return defaultApiUrl();
   }
