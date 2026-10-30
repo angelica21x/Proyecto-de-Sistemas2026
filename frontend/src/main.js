@@ -1,4 +1,4 @@
-import { apiRequest, defaultApiUrl, getApiUrl, setApiUrl } from './utils/api.js?v=9';
+﻿import { apiRequest, defaultApiUrl, getApiUrl, setApiUrl } from './utils/api.js?v=11';
 
 const app = document.getElementById('app');
 const pageTitle = document.getElementById('page-title');
@@ -465,19 +465,25 @@ window.addEventListener('hashchange', loadCurrentView);
 
 async function startApplication() {
   try {
-    const session = await apiRequest('auth/me');
-    if (!session?.user) throw new Error('Sesión no disponible');
-    state.user = session.user;
-    const username = session.user.username || 'Usuario';
+    // The login response already includes the authenticated user and token.
+    // Use it directly so an unnecessary auth/me request cannot reject a valid login.
+    let user;
+    try { user = JSON.parse(sessionStorage.getItem('inventariopro_user') || 'null'); }
+    catch { user = null; }
+    if (!user?.id || !user?.rol) {
+      const session = await apiRequest('auth/me');
+      user = session?.user;
+    }
+    if (!user) throw new Error('No se encontró la sesión. Inicia sesión nuevamente.');
+    state.user = user;
+    const username = user.username || 'Usuario';
     document.querySelector('.user-chip strong').textContent = username;
-    document.querySelector('.user-chip small').textContent = session.user.rol;
+    document.querySelector('.user-chip small').textContent = user.rol;
     document.querySelector('.avatar').textContent = username.slice(0, 2).toUpperCase();
     applyRoleVisibility();
     await loadCurrentView();
-  } catch {
-    sessionStorage.removeItem('inventariopro_session_token');
-    sessionStorage.removeItem('inventariopro_user');
-    window.location.replace('./login.html?error=session');
+  } catch (error) {
+    app.innerHTML = `<section class="empty-state"><h2>No se pudo cargar el sistema</h2><p>${error.message || 'No hay conexión con la API.'}</p><button class="button" data-action="retry" data-view="dashboard">Reintentar</button></section>`;
   }
 }
 

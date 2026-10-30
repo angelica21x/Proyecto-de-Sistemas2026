@@ -88,10 +88,10 @@ export async function apiRequest(endpoint, { method = 'GET', body } = {}) {
       return result;
     }
 
-    if (response.status === 401 && sessionStorage.getItem('inventariopro_session_token')) {
-      sessionStorage.removeItem('inventariopro_session_token');
-      sessionStorage.removeItem('inventariopro_user');
-      window.location.replace('./login.html?error=session');
+    if (response.status === 401 && method === 'GET') {
+      // Try the remaining safe GET candidates before treating the token as expired.
+      failures.push(`${url} (HTTP 401)`);
+      continue;
     }
 
     const message = [result?.message || result?.error, result?.detail].filter(Boolean).join(' — ') || `Error HTTP ${response.status}`;

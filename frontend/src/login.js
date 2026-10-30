@@ -62,7 +62,8 @@ async function sendAuthRequest(mode, form) {
   const endpoint = mode === 'register' ? 'auth/register' : 'auth/login';
   const savedApiBase = (localStorage.getItem('inventariopro_api_url') || '').replace(/\/$/, '');
   const siteOrigin = window.location.origin.replace(/\/$/, '');
-  const apiBases = savedApiBase ? [savedApiBase] : [
+  const apiBases = [
+    ...(savedApiBase ? [savedApiBase] : []),
     siteOrigin,
     `${siteOrigin}/api/public`,
     `${siteOrigin}/api`,
@@ -97,12 +98,12 @@ async function sendAuthRequest(mode, form) {
       }
 
       result = await response.json().catch(() => null);
-      if (response.status === 404 || response.status === 405) {
+      if ([401, 404, 405].includes(response.status)) {
         failures.push(url);
         continue;
       }
       if (response.ok || response.status !== 404) {
-        if (!savedApiBase) localStorage.setItem('inventariopro_api_url', apiBase);
+        localStorage.setItem('inventariopro_api_url', apiBase);
         break;
       }
     }
