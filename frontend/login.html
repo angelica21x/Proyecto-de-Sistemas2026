@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#db2777">
   <title>Acceso | InventarioPro</title>
   <link rel="stylesheet" href="./src/styles/output.css">
-  <script type="module" src="./src/login.js?v=2"></script>
+  <script type="module" src="./src/login.js?v=4"></script>
 </head>
 <body class="min-h-screen bg-pink-50 font-sans text-slate-800 antialiased">
   <main class="grid min-h-screen lg:grid-cols-[minmax(300px,0.9fr)_1.1fr]">
@@ -44,6 +44,12 @@
         <form id="login-form" class="space-y-5" novalidate>
           <div><label for="login-email" class="mb-2 block text-sm font-semibold text-slate-700">Correo electrónico</label><input id="login-email" name="email" type="email" autocomplete="email" required class="w-full rounded-xl border border-pink-100 bg-pink-50/40 px-4 py-3.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-pink-400 focus:bg-white focus:ring-4 focus:ring-pink-100" placeholder="usuario@correo.com"></div>
           <div><label for="login-password" class="mb-2 block text-sm font-semibold text-slate-700">Contraseña</label><input id="login-password" name="password" type="password" autocomplete="current-password" required class="w-full rounded-xl border border-pink-100 bg-pink-50/40 px-4 py-3.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-pink-400 focus:bg-white focus:ring-4 focus:ring-pink-100" placeholder="Escribe tu contraseña"></div>
+          <details class="rounded-xl border border-pink-100 bg-white/70 px-4 py-3">
+            <summary class="cursor-pointer text-sm font-semibold text-slate-600">Configurar conexión con la API</summary>
+            <label for="api-base-input" class="mb-2 mt-3 block text-xs text-slate-600">URL base del servicio API</label>
+            <input id="api-base-input" type="url" inputmode="url" class="w-full rounded-lg border border-pink-100 bg-pink-50/40 px-3 py-2.5 text-sm outline-none focus:border-pink-400 focus:bg-white" placeholder="https://tu-api.onrender.com">
+            <p class="mt-2 text-xs leading-5 text-slate-500">Debe ser la URL del servicio PHP/API, no la del sitio web.</p>
+          </details>
           <button type="submit" class="w-full rounded-xl bg-pink-600 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-pink-200 transition hover:bg-pink-700 focus:outline-none focus:ring-4 focus:ring-pink-200 disabled:cursor-wait disabled:opacity-60 lg:hidden">Iniciar sesión</button>
         </form>
 

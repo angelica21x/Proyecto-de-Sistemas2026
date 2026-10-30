@@ -4,7 +4,10 @@ const loginTab = document.querySelector('#login-tab');
 const registerTab = document.querySelector('#register-tab');
 const submitButton = document.querySelector('#top-submit');
 const message = document.querySelector('#form-message');
+const apiBaseInput = document.querySelector('#api-base-input');
 let activeForm = 'login';
+
+apiBaseInput.value = localStorage.getItem('inventariopro_api_url') || '';
 
 function showMessage(text, success = false) {
   message.textContent = text;
@@ -60,7 +63,13 @@ async function sendAuthRequest(mode, form) {
   }
 
   const endpoint = mode === 'register' ? 'auth/register' : 'auth/login';
-  const savedApiBase = (localStorage.getItem('inventariopro_api_url') || '').replace(/\/$/, '');
+  const enteredApiBase = apiBaseInput.value.trim().replace(/\/$/, '');
+  if (enteredApiBase && !/^https?:\/\//i.test(enteredApiBase)) {
+    showMessage('La URL de la API debe comenzar con http:// o https://');
+    return;
+  }
+  if (enteredApiBase) localStorage.setItem('inventariopro_api_url', enteredApiBase);
+  const savedApiBase = (enteredApiBase || localStorage.getItem('inventariopro_api_url') || '').replace(/\/$/, '');
   const siteOrigin = window.location.origin.replace(/\/$/, '');
   const apiBases = [
     ...(savedApiBase ? [savedApiBase] : []),
@@ -81,6 +90,7 @@ async function sendAuthRequest(mode, form) {
   try {
     let response;
     let result;
+    let successfulApiBase;
     const failures = [];
     for (const apiBase of candidates) {
       const url = apiBase.endsWith('/index.php')
@@ -103,7 +113,7 @@ async function sendAuthRequest(mode, form) {
         continue;
       }
       if (response.ok || response.status !== 404) {
-        localStorage.setItem('inventariopro_api_url', apiBase);
+        if (response.ok) successfulApiBase = apiBase;
         break;
       }
     }
@@ -114,6 +124,11 @@ async function sendAuthRequest(mode, form) {
     if (!response.ok) throw new Error(result?.message || (mode === 'login'
       ? 'No se pudo iniciar sesión. Revisa tus credenciales.'
       : 'No se pudo crear la cuenta.'));
+
+    if (mode === 'login' && (!result?.token || !result?.user?.id || !result?.user?.rol)) {
+      throw new Error('La dirección configurada no es una API de autenticación válida. Configura la URL del servicio API y vuelve a intentar.');
+    }
+    if (successfulApiBase) localStorage.setItem('inventariopro_api_url', successfulApiBase);
 
     if (result?.token) sessionStorage.setItem('inventariopro_session_token', result.token);
     if (result?.user) sessionStorage.setItem('inventariopro_user', JSON.stringify(result.user));
