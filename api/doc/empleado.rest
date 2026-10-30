@@ -1,8 +1,15 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de empleados
-GET http://api.sistemainventario/empleados
+GET {{baseUrl}}/empleados
+Authorization: Bearer {{token}}
+Accept: application/json
 
 ### Adicionar empleado
-POST http://api.sistemainventario/empleados
+POST {{baseUrl}}/empleados
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -13,7 +20,9 @@ Content-Type: application/json
 }
 
 ### Actualizar empleado (cambiar el id por uno existente)
-PUT http://api.sistemainventario/empleados/1
+PUT {{baseUrl}}/empleados/1
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -24,4 +33,6 @@ Content-Type: application/json
 }
 
 ### Eliminar empleado (cambiar el id por uno existente y sin usuario asociado)
-DELETE http://api.sistemainventario/empleados/1
+DELETE {{baseUrl}}/empleados/1
+Authorization: Bearer {{token}}
+Accept: application/json

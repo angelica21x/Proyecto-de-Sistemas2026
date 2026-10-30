@@ -12,7 +12,9 @@ class ConexionPDO
             PDO::ATTR_EMULATE_PREPARES => false
         ];
         try {
-            self::$cnn = new PDO($pdo, USERNAME, PASSWORD, $options);
+            if (self::$cnn === null) {
+                self::$cnn = new PDO($pdo, USERNAME, PASSWORD, $options);
+            }
         } catch (PDOException $error) {
             throw $error;
         }
@@ -25,8 +27,8 @@ class ConexionPDO
             $stmt = self::connect()->prepare($sql);
             $stmt->execute($param);
             return $stmt->fetchAll(); //["ok" => $sql];
-        } catch (Exception $e) {
-            return ["error" => $e->getMessage()];
+        } catch (Throwable $e) {
+            throw $e;
         }
     }
     // funcion para ejecutar transaccion update o add

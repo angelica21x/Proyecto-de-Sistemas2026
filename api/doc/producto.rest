@@ -1,30 +1,54 @@
-### Consulta de productos
-GET http://api.sistemainventario/productos
-### Actualizar producto
-PUT http://api.sistemainventario/productos/1
+# VS Code REST Client: ejecuta login y copia el token de la respuesta en @token.
+# Cambia la URL si Apache publica el proyecto en otra ruta.
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
+### Iniciar sesión (usa un usuario creado en cuentas_roles.sql)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
 
 {
-    "codbarras":"750100000001",
-    "nombre":"computadora ",
-    "descripcion":"computadora  de escritorio",
-    "stock_actual":200,
-    "stock_minimo":10,
-    "precio_costo":20.00,
-    "cod_categoria":1,
-    "cod_ubicacion":1
+  "username": "angelica@gmail.com",
+  "password": "tu_contraseña_configurada"
 }
-### Adicionar producto
-POST http://api.sistemainventario/productos
+
+### Listar productos
+GET {{baseUrl}}/productos
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Consultar un producto
+GET {{baseUrl}}/productos/1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Crear producto
+POST {{baseUrl}}/productos
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 {
-    "codbarras":"756798700999",
-    "nombre":"computadora ",
-    "descripcion":"computadora  de escritorio",
-    "stock_actual":200,
-    "stock_minimo":1,
-    "precio_costo":20.00,
-    "cod_categoria":1,
-    "cod_ubicacion":1
+  "codbarras": "756798700999",
+  "nombre": "Computadora",
+  "descripcion": "Computadora de escritorio",
+  "stock_actual": 20,
+  "stock_minimo": 1,
+  "precio_costo": 20.00,
+  "cod_categoria": 1,
+  "cod_ubicacion": 1
 }
+
+### Actualizar parcialmente producto
+PUT {{baseUrl}}/productos/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Computadora actualizada",
+  "stock_actual": 25
+}
+
 ### Eliminar producto
-DELETE http://api.sistemainventario/productos/3
+DELETE {{baseUrl}}/productos/1
+Authorization: Bearer {{token}}
+Accept: application/json

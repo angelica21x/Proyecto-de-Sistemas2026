@@ -1,8 +1,15 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de categorias
-GET http://api.sistemainventario/categorias
+GET {{baseUrl}}/categorias
+Authorization: Bearer {{token}}
+Accept: application/json
 
 ### Adicionar categoria
-POST http://api.sistemainventario/categorias
+POST {{baseUrl}}/categorias
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -11,7 +18,9 @@ Content-Type: application/json
 }
 
 ### Actualizar categoria (cambiar el id por uno existente)
-PUT http://api.sistemainventario/categorias/1
+PUT {{baseUrl}}/categorias/1
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -20,4 +29,6 @@ Content-Type: application/json
 }
 
 ### Eliminar categoria (cambiar el id por uno existente y sin productos asociados)
-DELETE http://api.sistemainventario/categorias/1
+DELETE {{baseUrl}}/categorias/1
+Authorization: Bearer {{token}}
+Accept: application/json

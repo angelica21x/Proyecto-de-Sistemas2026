@@ -1,8 +1,15 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de detalle de movimientos
-GET http://api.sistemainventario/detalle_movimientos
+GET {{baseUrl}}/detalle_movimientos
+Authorization: Bearer {{token}}
+Accept: application/json
 
 ### Adicionar detalle de movimiento (usar IDs existentes)
-POST http://api.sistemainventario/detalle_movimientos
+POST {{baseUrl}}/detalle_movimientos
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -13,7 +20,9 @@ Content-Type: application/json
 }
 
 ### Actualizar detalle de movimiento (cambiar el id por uno existente)
-PUT http://api.sistemainventario/detalle_movimientos/1
+PUT {{baseUrl}}/detalle_movimientos/1
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -24,4 +33,6 @@ Content-Type: application/json
 }
 
 ### Eliminar detalle de movimiento (cambiar el id por uno existente)
-DELETE http://api.sistemainventario/detalle_movimientos/1
+DELETE {{baseUrl}}/detalle_movimientos/1
+Authorization: Bearer {{token}}
+Accept: application/json

@@ -8,14 +8,23 @@ abstract class CrudController
 
     public function getAll(): void
     {
-        $model = $this->modelClass;
-        echo json_encode($model::all());
+        try {
+            $model = $this->modelClass;
+            echo json_encode($model::all(), JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+        } catch (Throwable $error) {
+            $this->writeError($error);
+        }
     }
 
     public function getById($id): void
     {
-        $model = $this->modelClass;
-        $rows = $model::findById($id);
+        try {
+            $model = $this->modelClass;
+            $rows = $model::findById($id);
+        } catch (Throwable $error) {
+            $this->writeError($error);
+            return;
+        }
         if (!$rows) {
             http_response_code(404);
             echo json_encode(['status' => 'error', 'message' => 'Registro no encontrado']);
@@ -63,7 +72,7 @@ abstract class CrudController
                 echo json_encode(['status' => 'true', 'message' => 'Registro actualizado correctamente']);
                 return;
             }
-            http_response_code(400);
+            http_response_code(404);
             echo json_encode(['status' => 'error', 'message' => 'No se pudo actualizar el registro']);
         } catch (Throwable $error) {
             $this->writeError($error);
@@ -78,7 +87,7 @@ abstract class CrudController
                 echo json_encode(['status' => 'true', 'message' => 'Registro eliminado correctamente']);
                 return;
             }
-            http_response_code(400);
+            http_response_code(404);
             echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar el registro']);
         } catch (Throwable $error) {
             $this->writeError($error);
@@ -98,7 +107,7 @@ abstract class CrudController
             'status' => 'error',
             'message' => 'No se pudo guardar el cambio en la base de datos.',
             'detail' => $error->getMessage()
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
     }
 
     private function readJson(): ?array
@@ -123,7 +132,7 @@ abstract class CrudController
         }
 
         $missing = [];
-        foreach ($this->requiredFields as $field) {
+        foreach ($creating ? $this->requiredFields : [] as $field) {
             if (!array_key_exists($field, $data) || $data[$field] === null || (is_string($data[$field]) && trim($data[$field]) === '')) {
                 $missing[] = $field;
             }

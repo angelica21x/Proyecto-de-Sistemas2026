@@ -37,6 +37,9 @@ abstract class CrudModel
 
     public static function update($id, array $data): bool
     {
+        if (!static::findById($id)) {
+            return false;
+        }
         unset($data['id']);
         $data = self::filterFields($data);
         if (!$data) {

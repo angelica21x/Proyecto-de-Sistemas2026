@@ -1,2 +1,7 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de usuario
-GET http://api.sistemainventario/users
+GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
+Accept: application/json

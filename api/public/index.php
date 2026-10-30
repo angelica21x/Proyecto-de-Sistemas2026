@@ -39,42 +39,49 @@ $route->add('DELETE', '/users/{id}', 'UsuarioController@delete');
 
 // dirección de productos
 $route->add('GET', '/productos', 'ProductoController@getAll');
+$route->add('GET', '/productos/{id}', 'ProductoController@getById');
 $route->add('PUT', '/productos/{id}', 'ProductoController@update');
 $route->add('POST', '/productos', 'ProductoController@add');
 $route->add('DELETE', '/productos/{id}', 'ProductoController@delete');
 
 // dirección de empleados
 $route->add('GET', '/empleados', 'EmpleadoController@getAll');
+$route->add('GET', '/empleados/{id}', 'EmpleadoController@getById');
 $route->add('PUT', '/empleados/{id}', 'EmpleadoController@update');
 $route->add('POST', '/empleados', 'EmpleadoController@add');
 $route->add('DELETE', '/empleados/{id}', 'EmpleadoController@delete');
 
 // dirección de categorías
 $route->add('GET', '/categorias', 'CategoriaController@getAll');
+$route->add('GET', '/categorias/{id}', 'CategoriaController@getById');
 $route->add('PUT', '/categorias/{id}', 'CategoriaController@update');
 $route->add('POST', '/categorias', 'CategoriaController@add');
 $route->add('DELETE', '/categorias/{id}', 'CategoriaController@delete');
 
 // dirección de movimientos
 $route->add('GET', '/movimientos', 'MovimientoController@getAll');
+$route->add('GET', '/movimientos/{id}', 'MovimientoController@getById');
 $route->add('PUT', '/movimientos/{id}', 'MovimientoController@update');
 $route->add('POST', '/movimientos', 'MovimientoController@add');
 $route->add('DELETE', '/movimientos/{id}', 'MovimientoController@delete');
 
 // dirección de ubicaciones
 $route->add('GET', '/ubicaciones', 'UbicacionController@getAll');
+$route->add('GET', '/ubicaciones/{id}', 'UbicacionController@getById');
 $route->add('PUT', '/ubicaciones/{id}', 'UbicacionController@update');
 $route->add('POST', '/ubicaciones', 'UbicacionController@add');
 $route->add('DELETE', '/ubicaciones/{id}', 'UbicacionController@delete');
 
 // dirección de proveedores
 $route->add('GET', '/proveedores', 'ProveedorController@getAll');
+$route->add('GET', '/proveedores/{id}', 'ProveedorController@getById');
 $route->add('PUT', '/proveedores/{id}', 'ProveedorController@update');
 $route->add('POST', '/proveedores', 'ProveedorController@add');
 $route->add('DELETE', '/proveedores/{id}', 'ProveedorController@delete');
 
 // dirección de detalle de movimientos
 $route->add('GET', '/detalle_movimientos', 'Detalle_MovimientoController@getAll');
+$route->add('GET', '/detalle_movimientos/{id}', 'Detalle_MovimientoController@getById');
 $route->add('PUT', '/detalle_movimientos/{id}', 'Detalle_MovimientoController@update');
 $route->add('POST', '/detalle_movimientos', 'Detalle_MovimientoController@add');
 $route->add('DELETE', '/detalle_movimientos/{id}', 'Detalle_MovimientoController@delete');

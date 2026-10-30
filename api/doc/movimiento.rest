@@ -1,8 +1,15 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de movimientos
-GET http://api.sistemainventario/movimientos
+GET {{baseUrl}}/movimientos
+Authorization: Bearer {{token}}
+Accept: application/json
 
 ### Adicionar movimiento (cod_empleado y cod_proveedor deben existir)
-POST http://api.sistemainventario/movimientos
+POST {{baseUrl}}/movimientos
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -15,7 +22,9 @@ Content-Type: application/json
 }
 
 ### Actualizar movimiento (cambiar el id por uno existente)
-PUT http://api.sistemainventario/movimientos/1
+PUT {{baseUrl}}/movimientos/1
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -28,4 +37,6 @@ Content-Type: application/json
 }
 
 ### Eliminar movimiento (cambiar el id por uno existente; sus detalles se eliminan en cascada)
-DELETE http://api.sistemainventario/movimientos/1
+DELETE {{baseUrl}}/movimientos/1
+Authorization: Bearer {{token}}
+Accept: application/json

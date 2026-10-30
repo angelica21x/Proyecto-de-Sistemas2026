@@ -1,8 +1,15 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de proveedores
-GET http://api.sistemainventario/proveedores
+GET {{baseUrl}}/proveedores
+Authorization: Bearer {{token}}
+Accept: application/json
 
 ### Adicionar proveedor
-POST http://api.sistemainventario/proveedores
+POST {{baseUrl}}/proveedores
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -15,7 +22,9 @@ Content-Type: application/json
 }
 
 ### Actualizar proveedor (cambiar el id por uno existente)
-PUT http://api.sistemainventario/proveedores/1
+PUT {{baseUrl}}/proveedores/1
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -28,4 +37,6 @@ Content-Type: application/json
 }
 
 ### Eliminar proveedor (cambiar el id por uno existente y sin movimientos asociados)
-DELETE http://api.sistemainventario/proveedores/1
+DELETE {{baseUrl}}/proveedores/1
+Authorization: Bearer {{token}}
+Accept: application/json

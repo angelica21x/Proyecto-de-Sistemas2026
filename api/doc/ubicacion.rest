@@ -1,8 +1,15 @@
+@baseUrl = http://localhost/Proyecto-de-Sistemas2026/api/public
+@token = pega_aqui_el_token
+
 ### Consulta de ubicaciones
-GET http://api.sistemainventario/ubicaciones
+GET {{baseUrl}}/ubicaciones
+Authorization: Bearer {{token}}
+Accept: application/json
 
 ### Adicionar ubicacion
-POST http://api.sistemainventario/ubicaciones
+POST {{baseUrl}}/ubicaciones
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -13,7 +20,9 @@ Content-Type: application/json
 }
 
 ### Actualizar ubicacion (cambiar el id por uno existente)
-PUT http://api.sistemainventario/ubicaciones/1
+PUT {{baseUrl}}/ubicaciones/1
+Authorization: Bearer {{token}}
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -24,4 +33,6 @@ Content-Type: application/json
 }
 
 ### Eliminar ubicacion (cambiar el id por uno existente y sin productos asociados)
-DELETE http://api.sistemainventario/ubicaciones/1
+DELETE {{baseUrl}}/ubicaciones/1
+Authorization: Bearer {{token}}
+Accept: application/json
